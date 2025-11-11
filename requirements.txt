@@ -1,0 +1,23 @@
+# Solution Architect Learning System - Requirements
+
+# Azure OpenAI
+openai>=1.12.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# Standard library (no installation needed, listed for reference)
+# json
+# os
+# pathlib
+# datetime
+# typing
+# hashlib
+
+# Optional but recommended for Jupyter notebooks
+jupyter>=1.0.0
+notebook>=7.0.0
+ipykernel>=6.29.0
+
+# Optional: For enhanced notebook experience
+ipywidgets>=8.1.0

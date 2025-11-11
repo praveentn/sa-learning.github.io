@@ -1,0 +1,911 @@
+{
+  "metadata": {
+    "domain": "Solution Architecture - Demo",
+    "version": 1,
+    "created_at": "2025-11-11T19:34:33.263927",
+    "last_modified": "2025-11-11T19:36:18.914787",
+    "total_fields": 2,
+    "total_topics": 4,
+    "total_items": 424
+  },
+  "fields": {
+    "Cloud Architecture": {
+      "field_id": "d47c7c72",
+      "topics": {
+        "Cloud Service Models: IaaS, PaaS, SaaS Fundamentals": {
+          "topic_id": "624df870",
+          "content": {
+            "titbits": [
+              "IaaS, PaaS, and SaaS are the three primary cloud service models, each offering a different level of abstraction and management responsibility.",
+              "IaaS provides virtualized computing resources over the internet, allowing users to manage operating systems, storage, and applications.",
+              "PaaS delivers a platform for developers to build, deploy, and manage applications without worrying about underlying infrastructure.",
+              "SaaS offers ready-to-use software applications delivered via the cloud, typically accessed through a web browser.",
+              "Major cloud providers like AWS, Azure, and Google Cloud offer all three service models, but with different products and pricing strategies.",
+              "The shared responsibility model varies across IaaS, PaaS, and SaaS, affecting how security, updates, and compliance are handled.",
+              "Hybrid and multi-cloud strategies often use a mix of IaaS, PaaS, and SaaS services to optimize performance and cost.",
+              "IaaS can be rapidly scaled up or down, making it ideal for variable workloads and disaster recovery scenarios.",
+              "PaaS platforms commonly include built-in services like auto-scaling, logging, and monitoring, speeding up application development.",
+              "SaaS reduces the need for in-house IT maintenance, but can raise concerns about data sovereignty and customization."
+            ],
+            "code_snippets": [
+              {
+                "language": "python",
+                "description": "Provisioning a virtual machine in IaaS (using AWS Boto3 SDK)",
+                "code": "import boto3\n\nec2 = boto3.resource('ec2')\ninstance = ec2.create_instances(\n    ImageId='ami-0abcdef1234567890',\n    MinCount=1,\n    MaxCount=1,\n    InstanceType='t2.micro'\n)[0]\nprint('Instance ID:', instance.id)"
+              },
+              {
+                "language": "python",
+                "description": "Deploying an app to PaaS (using Google App Engine SDK)",
+                "code": "gcloud app deploy app.yaml # Command line to deploy app.yaml configuration\n# app.yaml example:\nruntime: python39\nentrypoint: gunicorn -b :$PORT main:app"
+              },
+              {
+                "language": "shell",
+                "description": "Accessing SaaS via REST API (e.g., Salesforce)",
+                "code": "curl -X GET \\\n  https://yourInstance.salesforce.com/services/data/v55.0/sobjects/Account/001D000000IqhSLIAZ \\\n  -H 'Authorization: Bearer <access_token>'"
+              },
+              {
+                "language": "yaml",
+                "description": "Defining resources for a PaaS deployment (Azure App Service)",
+                "code": "resources:\n  - type: Microsoft.Web/sites\n    apiVersion: 2021-02-01\n    name: myWebApp\n    location: eastus\n    properties:\n      serverFarmId: myAppServicePlan"
+              },
+              {
+                "language": "python",
+                "description": "Uploading files to IaaS object storage (AWS S3)",
+                "code": "import boto3\n\ns3 = boto3.client('s3')\ns3.upload_file('local_file.txt', 'my-bucket', 'remote_file.txt')"
+              },
+              {
+                "language": "javascript",
+                "description": "Consuming SaaS API (Google Workspace Sheets API)",
+                "code": "const {google} = require('googleapis');\nconst sheets = google.sheets('v4');\nconst authClient = ... // OAuth2 setup\nsheets.spreadsheets.values.get({\n  spreadsheetId: 'your-id',\n  range: 'Sheet1!A1:C10',\n  auth: authClient\n}, (err, res) => {\n  if (err) throw err;\n  console.log(res.data.values);\n});"
+              }
+            ],
+            "use_cases": [
+              "IaaS: Hosting scalable web applications with dynamic traffic, such as e-commerce platforms during seasonal sales.",
+              "PaaS: Rapid prototyping and deployment of microservices for startup MVPs, reducing infrastructure management overhead.",
+              "SaaS: Company-wide adoption of productivity tools like Microsoft 365 or Google Workspace to streamline collaboration.",
+              "IaaS: Disaster recovery setups, leveraging virtual machines and storage snapshots for business continuity.",
+              "PaaS: Building real-time chat apps using managed services like Azure App Service or Google App Engine.",
+              "SaaS: CRM implementation (Salesforce) to unify customer data and automate sales processes.",
+              "PaaS: Automated CI/CD pipelines for containerized applications, using platforms like AWS Elastic Beanstalk.",
+              "IaaS: Running legacy enterprise workloads that require custom OS configurations and networking."
+            ],
+            "real_examples": [
+              "Netflix uses AWS IaaS for scalable video streaming infrastructure, managing both compute and storage resources.",
+              "Heroku (PaaS) enables startups to deploy Ruby, Node.js, and Python applications with minimal ops overhead.",
+              "Salesforce (SaaS) delivers CRM solutions to thousands of organizations, eliminating the need for server management.",
+              "Dropbox (SaaS) shifted from AWS IaaS to its own infrastructure for file hosting and collaboration.",
+              "Shopify (SaaS) allows merchants to run online stores without managing hosting or codebase.",
+              "Azure App Service (PaaS) powers enterprise web applications for companies needing easy scaling and deployment.",
+              "Google Cloud Compute Engine (IaaS) is used by data analytics firms for running custom data processing pipelines."
+            ],
+            "client_stories": [
+              "A retail chain migrated its inventory management system to IaaS, enabling automated scaling during holiday sales and reducing downtime.",
+              "A fintech startup chose PaaS for developing and deploying its mobile banking app, focusing on feature delivery rather than infrastructure setup.",
+              "A healthcare provider adopted a SaaS EHR platform, improving data accessibility and compliance without hiring additional IT staff.",
+              "A global manufacturer used IaaS to create a hybrid cloud for disaster recovery, integrating on-premises and cloud resources.",
+              "An educational institution leveraged SaaS for their LMS, allowing remote learning and collaboration during the pandemic.",
+              "A media company refactored legacy apps into microservices on PaaS, accelerating innovation and deployment cycles."
+            ],
+            "practical_issues": [
+              "IaaS: VM sprawl and underutilization can lead to unnecessary costs. Solution: Implement automated resource tagging and scheduled shutdowns.",
+              "PaaS: Limited control over runtime environment may restrict customization. Solution: Use custom buildpacks or move to containers if needed.",
+              "SaaS: Data lock-in and vendor dependency can hinder migrations. Solution: Choose SaaS with strong export/import capabilities and open APIs.",
+              "IaaS: Security misconfigurations (e.g., open storage buckets) can expose data. Solution: Regularly audit cloud configurations using automated tools.",
+              "PaaS: Application performance bottlenecks due to shared resources. Solution: Monitor with APM tools and leverage scaling features.",
+              "SaaS: Compliance concerns for sensitive data hosted externally. Solution: Ensure SaaS provider meets regulatory standards and offers encryption."
+            ],
+            "historical_aspects": [
+              "IaaS emerged in the mid-2000s with AWS EC2, marking a shift from physical servers to virtualized infrastructure.",
+              "PaaS rose in popularity with platforms like Google App Engine (2008) and Heroku (2007), targeting developer productivity.",
+              "SaaS roots trace back to early web-based applications like Salesforce (launched in 1999), replacing on-premise software.",
+              "Cloud service models evolved as organizations sought more flexibility, moving from hardware-centric to service-centric IT.",
+              "The distinction between IaaS, PaaS, and SaaS has blurred with tools like Kubernetes (IaaS+PaaS) and serverless offerings.",
+              "Early skepticism around cloud security and reliability has largely faded due to advancements in cloud provider capabilities."
+            ],
+            "related_concepts": [
+              "Serverless Computing: Executes code in response to events without managing servers, often built atop PaaS.",
+              "Hybrid Cloud: Combines public and private cloud resources, commonly integrating IaaS and SaaS.",
+              "Multi-cloud: Uses services from multiple providers, mixing IaaS, PaaS, and SaaS for redundancy and flexibility.",
+              "DevOps: Cloud service models facilitate CI/CD, automation, and collaboration between development and operations.",
+              "Containerization: Docker and Kubernetes bridge the gap between IaaS and PaaS, enabling portability and scalability.",
+              "Cloud Security: Encompasses identity management, encryption, and compliance across service models."
+            ],
+            "memorize_this": [
+              "IaaS provides infrastructure (compute, storage, networking); clients manage OS and apps.",
+              "PaaS delivers a managed platform for building and deploying applications; clients focus on code.",
+              "SaaS offers ready-to-use applications accessed via the internet; providers manage everything.",
+              "Shared responsibility model shifts more management to the provider as you move from IaaS to SaaS.",
+              "Choosing the right service model depends on control, scalability, compliance, and development velocity."
+            ],
+            "eli5": [
+              "IaaS is like renting an empty apartment—you bring your own furniture (software) and decorate it.",
+              "PaaS is like renting a fully furnished apartment—you just move in and start living (coding).",
+              "SaaS is like staying in a hotel—you just use what's provided, no setup needed.",
+              "Cloud service models help you run things on the internet instead of buying your own computers.",
+              "The more you move from IaaS to SaaS, the less you have to worry about fixing or updating stuff."
+            ],
+            "analogies": [
+              "IaaS is renting a truck (you drive, you load, you choose the route); PaaS is a moving service (they drive, you pack); SaaS is a delivery (everything arrives ready).",
+              "IaaS is a raw land plot; PaaS is a pre-built foundation; SaaS is a turn-key house.",
+              "IaaS is like buying ingredients to cook a meal; PaaS is like a meal kit; SaaS is dining at a restaurant.",
+              "IaaS is a customizable toolbox; PaaS is a specialized toolkit; SaaS is the finished product.",
+              "IaaS is building your own car; PaaS is leasing a car with options; SaaS is using a ride-share service."
+            ],
+            "ideal_usage": [
+              "IaaS: When you need full control over OS, networking, and custom applications (e.g., legacy migration, HPC workloads).",
+              "PaaS: When speed and simplicity of app deployment matter, especially for web and mobile apps.",
+              "SaaS: When seeking cost-effective, ready-to-use solutions for business functions (CRM, HR, email, collaboration).",
+              "PaaS: Perfect for development teams needing auto-scaling, integrated CI/CD, and managed databases.",
+              "IaaS: For organizations requiring disaster recovery, test/dev environments, or variable workloads."
+            ],
+            "mcqs": [
+              {
+                "question": "Which cloud service model gives the user maximum control over the operating system?",
+                "options": [
+                  "IaaS",
+                  "PaaS",
+                  "SaaS",
+                  "Serverless"
+                ],
+                "correct": 0,
+                "explanation": "IaaS provides infrastructure resources, letting the user control the OS."
+              },
+              {
+                "question": "A developer wants to deploy an app without managing underlying servers. Which model is best?",
+                "options": [
+                  "IaaS",
+                  "PaaS",
+                  "SaaS",
+                  "On-premise"
+                ],
+                "correct": 1,
+                "explanation": "PaaS abstracts server management and lets developers focus on code."
+              },
+              {
+                "question": "Which is a typical example of SaaS?",
+                "options": [
+                  "Google Compute Engine",
+                  "Heroku",
+                  "Salesforce",
+                  "Docker"
+                ],
+                "correct": 2,
+                "explanation": "Salesforce is a cloud-based software accessed via browser (SaaS)."
+              },
+              {
+                "question": "In which model does the cloud provider manage the networking, storage, and virtualization?",
+                "options": [
+                  "Only IaaS",
+                  "Only PaaS",
+                  "IaaS and PaaS",
+                  "Only SaaS"
+                ],
+                "correct": 2,
+                "explanation": "Both IaaS and PaaS providers manage infrastructure components."
+              },
+              {
+                "question": "Which concern is most relevant in SaaS adoption?",
+                "options": [
+                  "Kernel upgrades",
+                  "Data lock-in",
+                  "Virtual machine selection",
+                  "Database sharding"
+                ],
+                "correct": 1,
+                "explanation": "SaaS often involves vendor lock-in and challenges in migrating data."
+              }
+            ],
+            "thought_provoking": [
+              "How might the lines between IaaS, PaaS, and SaaS blur as cloud providers offer more integrated solutions?",
+              "What are the long-term implications of vendor lock-in in SaaS for organizations' data strategy?",
+              "Can PaaS platforms evolve to support complex, stateful applications without sacrificing simplicity?",
+              "How does the shared responsibility model affect compliance requirements across different industries?",
+              "What role will edge computing play in the future of cloud service models?"
+            ],
+            "best_practices": [
+              "Use tagging and automation to manage IaaS resources and control costs.",
+              "Leverage built-in security features and update mechanisms in PaaS and SaaS.",
+              "Regularly review cloud provider SLAs, compliance certifications, and data governance policies.",
+              "Design applications for portability to avoid vendor lock-in, especially for SaaS and PaaS.",
+              "Monitor cloud usage and performance with native and third-party tools to optimize efficiency."
+            ],
+            "anti_patterns": [
+              "Deploying monolithic applications on PaaS without considering scaling limitations.",
+              "Using IaaS for simple web apps that could be more efficiently hosted on PaaS/SaaS.",
+              "Ignoring data export capabilities when choosing SaaS, leading to migration challenges later.",
+              "Over-provisioning IaaS resources, resulting in high costs and low utilization.",
+              "Hardcoding provider-specific features in applications, reducing portability."
+            ],
+            "tools_technologies": [
+              "AWS EC2 (IaaS), S3 (IaaS storage)",
+              "Google App Engine (PaaS), Cloud Run (PaaS/serverless)",
+              "Azure App Service (PaaS), Azure Blob Storage (IaaS)",
+              "Salesforce (SaaS), Office 365 (SaaS), Google Workspace (SaaS)",
+              "Terraform (multi-cloud IaC), CloudFormation (AWS IaC)",
+              "Heroku (PaaS), Docker (containerization), Kubernetes (IaaS+PaaS)"
+            ],
+            "interview_questions": [
+              "Explain the differences between IaaS, PaaS, and SaaS with examples.",
+              "How does the shared responsibility model change across the cloud service models?",
+              "Describe a scenario where PaaS is preferable over IaaS.",
+              "What are the risks of SaaS vendor lock-in, and how can they be mitigated?",
+              "How would you ensure compliance when adopting a SaaS solution for sensitive data?",
+              "Can you outline a migration plan from on-premises to IaaS?"
+            ],
+            "hands_on_exercises": [
+              "Provision a virtual machine on AWS or Azure, install a web server, and host a static site (IaaS).",
+              "Deploy a sample Node.js application to Heroku or Azure App Service (PaaS) and configure scaling.",
+              "Integrate a SaaS CRM (e.g., Salesforce) with a custom app using REST APIs.",
+              "Compare cost and performance of hosting the same application on IaaS vs PaaS.",
+              "Export your data from a SaaS application and import it into another tool.",
+              "Set up role-based access control for an IaaS resource and audit user actions."
+            ],
+            "further_reading": [
+              "AWS Cloud Service Models Documentation: https://aws.amazon.com/types-of-cloud-computing/",
+              "Google Cloud Service Model Comparison: https://cloud.google.com/learn/iaas-paas-saas",
+              "Microsoft Azure Fundamentals: https://learn.microsoft.com/en-us/azure/architecture/cloud-adoption/cloud-service-models",
+              "NIST Definition of Cloud Computing: https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-145.pdf",
+              "O'Reilly - Cloud Native Infrastructure (Book)",
+              "Heroku PaaS Documentation: https://devcenter.heroku.com/",
+              "Gartner Magic Quadrant for Cloud Infrastructure"
+            ]
+          }
+        },
+        "Designing Cloud-Native Architectures and Microservices": {
+          "topic_id": "449fa00b",
+          "content": {
+            "titbits": [
+              "Cloud-native architectures emphasize scalability, resilience, and agility by leveraging managed services and container orchestration.",
+              "Microservices architectures break down applications into loosely coupled services that can be independently deployed and scaled.",
+              "Statelessness is a fundamental principle in cloud-native apps, enabling horizontal scaling and high availability.",
+              "API gateways are critical for managing and securing communication between microservices.",
+              "Service discovery mechanisms help microservices locate and communicate with each other dynamically in distributed environments."
+            ],
+            "code_snippets": [
+              {
+                "language": "python",
+                "description": "Simple RESTful microservice using Flask",
+                "code": "from flask import Flask, jsonify\napp = Flask(__name__)\n\n@app.route('/health')\ndef health():\n    return jsonify({'status': 'ok'}), 200\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5000)"
+              },
+              {
+                "language": "yaml",
+                "description": "Kubernetes deployment for a microservice",
+                "code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: my-microservice\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: microservice\n  template:\n    metadata:\n      labels:\n        app: microservice\n    spec:\n      containers:\n      - name: microservice\n        image: my-microservice:latest\n        ports:\n        - containerPort: 5000"
+              },
+              {
+                "language": "json",
+                "description": "AWS Lambda function configuration for a microservice endpoint",
+                "code": "{\n  \"FunctionName\": \"myMicroserviceFunction\",\n  \"Runtime\": \"python3.9\",\n  \"Handler\": \"app.lambda_handler\",\n  \"MemorySize\": 128,\n  \"Timeout\": 15\n}"
+              },
+              {
+                "language": "bash",
+                "description": "Dockerfile for containerizing a microservice",
+                "code": "FROM python:3.9-slim\nWORKDIR /app\nCOPY requirements.txt requirements.txt\nRUN pip install -r requirements.txt\nCOPY . .\nCMD [\"python\", \"app.py\"]"
+              },
+              {
+                "language": "typescript",
+                "description": "Express.js microservice with health check endpoint",
+                "code": "import express from 'express';\nconst app = express();\n\napp.get('/health', (req, res) => {\n  res.json({ status: 'ok' });\n});\n\napp.listen(3000, () => {\n  console.log('Service running on port 3000');\n});"
+              }
+            ],
+            "use_cases": [
+              "E-commerce platforms scaling microservices for inventory, payments, and recommendations independently.",
+              "Healthcare applications securely processing patient data through isolated services for compliance and privacy.",
+              "Financial services implementing separate microservices for fraud detection, transaction processing, and reporting.",
+              "Media streaming applications using cloud-native architectures to deliver content globally with low latency.",
+              "IoT platforms collecting and processing device data via distributed microservices for real-time analytics."
+            ],
+            "real_examples": [
+              "Netflix rebuilt its monolithic application into hundreds of microservices, leveraging AWS for scalability and resilience.",
+              "Spotify uses containerized microservices on Google Cloud to manage playlists, recommendations, and user data.",
+              "Airbnb migrated its infrastructure to microservices on AWS to enable faster feature releases and improved reliability.",
+              "Uber employs cloud-native microservices for real-time ride matching, billing, and notifications at global scale.",
+              "Shopify transitioned to Kubernetes and microservices to handle massive traffic spikes during online sales events."
+            ],
+            "client_stories": [
+              "A retail client reduced downtime by migrating legacy apps to cloud-native microservices, allowing independent service updates.",
+              "A fintech company improved security and compliance by isolating sensitive payment microservices and encrypting data in transit.",
+              "An edtech startup accelerated feature delivery by using serverless microservices for its learning management system.",
+              "A logistics provider achieved real-time package tracking by deploying containerized microservices on Azure Kubernetes Service.",
+              "A media company cut infrastructure costs by auto-scaling streaming microservices based on audience size using AWS ECS."
+            ],
+            "practical_issues": [
+              "Service-to-service communication can become complex; using service mesh (e.g., Istio) simplifies management and observability.",
+              "Distributed tracing and logging can be challenging; tools like Jaeger and ELK stack help monitor microservice interactions.",
+              "Managing secrets and environment variables securely across services is critical; use cloud-native secret managers.",
+              "Database per service can lead to data consistency issues; implement event-driven architectures and eventual consistency.",
+              "Network latency between microservices may impact performance; colocate services or use optimized protocols like gRPC."
+            ],
+            "historical_aspects": [
+              "Monolithic architectures dominated early cloud migrations before microservices emerged as a best practice.",
+              "The rise of containers (Docker, 2013) enabled easier deployment and isolation of microservices.",
+              "Kubernetes (2014) revolutionized orchestration and scaling for cloud-native applications.",
+              "Serverless computing (AWS Lambda, 2014) further abstracted infrastructure management for microservices.",
+              "Evolution from SOA (Service-Oriented Architecture) to microservices focused on smaller, more agile components."
+            ],
+            "related_concepts": [
+              "DevOps practices for continuous integration and deployment in cloud-native environments.",
+              "API management and security for microservices communication.",
+              "Service mesh for traffic management, observability, and security in distributed systems.",
+              "Container orchestration (Kubernetes, Docker Swarm) for deploying microservices.",
+              "Event-driven architecture using message brokers like Kafka or RabbitMQ."
+            ],
+            "memorize_this": [
+              "Cloud-native architectures are designed for scalability, resilience, and manageability.",
+              "Microservices communicate via APIs, often REST, gRPC, or message queues.",
+              "Each microservice should be independently deployable, scalable, and maintainable.",
+              "Stateless services enable horizontal scaling and easier failover.",
+              "API gateways centralize authentication, rate limiting, and routing for microservices."
+            ],
+            "eli5": [
+              "Cloud-native means building apps to run easily and reliably on the cloud, using its special features.",
+              "Microservices are like building blocks; each does a small job, and together they make a big, powerful app.",
+              "Imagine a big toy made of Lego pieces — you can change one piece without breaking the whole toy.",
+              "Cloud-native apps can grow or shrink to fit how many people are using them, like adding seats to a bus.",
+              "Each microservice has its own job, so fixing one doesn't affect the others."
+            ],
+            "analogies": [
+              "Microservices architecture is like a team of specialists, each focusing on one task, versus one person doing everything.",
+              "Cloud-native design is similar to using modular furniture — you can rearrange or replace parts easily.",
+              "API gateways are like receptionists directing visitors to the right office in a large building.",
+              "Container orchestration (Kubernetes) is like a traffic controller managing the flow of vehicles on multiple lanes.",
+              "Event-driven architecture is like a news agency — services react when news (events) is published."
+            ],
+            "ideal_usage": [
+              "Rapidly evolving applications needing frequent updates and scalability.",
+              "Platforms expecting unpredictable or spiky traffic, such as online retail during sales.",
+              "Systems requiring high availability and disaster recovery, like healthcare or finance.",
+              "Applications with diverse functionality that benefit from independent development cycles.",
+              "Organizations aiming to optimize resource usage and minimize downtime."
+            ],
+            "mcqs": [
+              {
+                "question": "Which is a key benefit of cloud-native microservices architectures?",
+                "options": [
+                  "Tightly coupled components",
+                  "Monolithic deployment",
+                  "Independent scaling of services",
+                  "Single point of failure"
+                ],
+                "correct": 2,
+                "explanation": "Microservices can be scaled independently, improving resource utilization and reliability."
+              },
+              {
+                "question": "What does statelessness enable in cloud-native applications?",
+                "options": [
+                  "Vertical scaling",
+                  "Horizontal scaling",
+                  "Data sharing between services",
+                  "Centralized logging"
+                ],
+                "correct": 1,
+                "explanation": "Stateless services can be easily replicated for horizontal scaling."
+              },
+              {
+                "question": "Which tool is commonly used for container orchestration in cloud-native architectures?",
+                "options": [
+                  "Chef",
+                  "Kubernetes",
+                  "CircleCI",
+                  "Terraform"
+                ],
+                "correct": 1,
+                "explanation": "Kubernetes is the industry standard for orchestrating containers."
+              },
+              {
+                "question": "When designing microservices, what should each service ideally own?",
+                "options": [
+                  "A shared database",
+                  "Its own data store",
+                  "The entire application logic",
+                  "Global state"
+                ],
+                "correct": 1,
+                "explanation": "Service autonomy includes owning its own data store for isolation."
+              },
+              {
+                "question": "What is an API gateway’s primary function?",
+                "options": [
+                  "Storing databases",
+                  "Routing client requests to microservices",
+                  "Scaling containers",
+                  "Managing cloud billing"
+                ],
+                "correct": 1,
+                "explanation": "API gateways route, authenticate, and manage traffic to microservices."
+              }
+            ],
+            "thought_provoking": [
+              "How does microservices architecture impact organizational culture and team structure?",
+              "What are the trade-offs between serverless and containerized microservices?",
+              "How can event-driven patterns improve microservices communication but also introduce complexity?",
+              "What strategies can mitigate cascading failures in distributed cloud-native systems?",
+              "How might future advancements in AI and automation further optimize cloud-native architectures?"
+            ],
+            "best_practices": [
+              "Design microservices for statelessness and idempotency to ensure scalability and reliability.",
+              "Implement robust health checks and automated recovery for all services.",
+              "Use API gateways to centralize authentication, authorization, and rate limiting.",
+              "Employ continuous integration and deployment pipelines for automated testing and delivery.",
+              "Monitor and trace inter-service communication using distributed tracing tools."
+            ],
+            "anti_patterns": [
+              "Sharing databases between multiple microservices undermines autonomy and scalability.",
+              "Hard-coding service endpoints prevents dynamic service discovery and scaling.",
+              "Ignoring backward compatibility in APIs leads to breaking changes during deployments.",
+              "Overloading a microservice with too many responsibilities creates a 'mini-monolith.'",
+              "Neglecting security between microservices exposes vulnerabilities and data leaks."
+            ],
+            "tools_technologies": [
+              "Kubernetes for container orchestration and scaling.",
+              "Docker for containerizing microservices.",
+              "Istio for service mesh management and observability.",
+              "AWS Lambda and Azure Functions for serverless microservices.",
+              "Spring Boot and Flask for rapid microservice development."
+            ],
+            "interview_questions": [
+              "How do you ensure data consistency across microservices?",
+              "Describe strategies for handling service discovery in cloud-native environments.",
+              "What are the benefits and drawbacks of using an API gateway?",
+              "How would you migrate a legacy monolithic application to microservices on the cloud?",
+              "Explain how you would implement security between microservices."
+            ],
+            "hands_on_exercises": [
+              "Build and deploy a simple RESTful microservice on Kubernetes.",
+              "Implement service discovery and load balancing with Consul or Eureka.",
+              "Set up distributed tracing using Jaeger or Zipkin for a multi-service application.",
+              "Integrate an API gateway (e.g., Kong or AWS API Gateway) and secure endpoints.",
+              "Refactor a monolithic application into two independent microservices with separate data stores."
+            ],
+            "further_reading": [
+              "Martin Fowler - Microservices Resource Guide (https://martinfowler.com/microservices/)",
+              "Google Cloud Architecture Framework (https://cloud.google.com/architecture/framework)",
+              "AWS Well-Architected Framework (https://aws.amazon.com/architecture/well-architected/)",
+              "Building Microservices by Sam Newman (O'Reilly Media)",
+              "Cloud Native Patterns by Cornelia Davis (Manning Publications)"
+            ]
+          }
+        }
+      }
+    },
+    "Microservices Design": {
+      "field_id": "97da018d",
+      "topics": {
+        "Principles and Fundamentals of Microservices Architecture": {
+          "topic_id": "fae55a04",
+          "content": {
+            "titbits": [
+              "Microservices are independently deployable services that encapsulate a business capability.",
+              "Netflix was one of the earliest large-scale adopters of microservices, moving from a monolithic architecture.",
+              "Each microservice typically owns its own data storage, avoiding shared databases.",
+              "The rise of containerization (e.g., Docker) has fueled the popularity of microservices.",
+              "Microservices promote polyglot programming, allowing different services to use different tech stacks.",
+              "A well-designed microservice should be small enough to be rewritten within a couple of weeks.",
+              "Microservices communicate over lightweight protocols such as HTTP/REST, gRPC, or messaging queues.",
+              "Service discovery is essential in microservices to enable services to find each other dynamically.",
+              "Microservices architectures require robust monitoring and logging mechanisms due to their distributed nature."
+            ],
+            "code_snippets": [
+              {
+                "language": "python",
+                "description": "Basic Flask microservice exposing a REST endpoint",
+                "code": "from flask import Flask, jsonify\napp = Flask(__name__)\n\n@app.route('/health')\ndef health():\n    return jsonify({'status': 'up'})\n\nif __name__ == '__main__':\n    app.run(port=5000)"
+              },
+              {
+                "language": "docker",
+                "description": "Dockerfile for containerizing a Python microservice",
+                "code": "FROM python:3.10-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .\nCMD [\"python\", \"app.py\"]"
+              },
+              {
+                "language": "yaml",
+                "description": "Kubernetes deployment manifest for a microservice",
+                "code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: user-service\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: user-service\n  template:\n    metadata:\n      labels:\n        app: user-service\n    spec:\n      containers:\n      - name: user-service\n        image: user-service:latest\n        ports:\n        - containerPort: 5000"
+              },
+              {
+                "language": "java",
+                "description": "Spring Boot microservice with REST controller",
+                "code": "@RestController\npublic class HelloController {\n    @GetMapping(\"/hello\")\n    public String hello() {\n        return \"Hello from Microservice!\";\n    }\n}"
+              },
+              {
+                "language": "bash",
+                "description": "Curl command to test microservice endpoint",
+                "code": "curl http://localhost:5000/health"
+              }
+            ],
+            "use_cases": [
+              "Building scalable e-commerce platforms where each function (catalog, cart, payment) is a separate service.",
+              "Enabling continuous delivery and deployment for large organizations with frequent updates.",
+              "Supporting multiple client types (web, mobile, IoT) by exposing APIs tailored by service.",
+              "Creating loosely coupled systems for rapid innovation and experimentation.",
+              "Migrating legacy monolithic applications to modern cloud-native architectures."
+            ],
+            "real_examples": [
+              "Netflix decomposed its monolithic DVD rental system into hundreds of cloud-based microservices.",
+              "Amazon's shopping cart is a microservice that interacts with other services like recommendation and inventory.",
+              "Uber uses microservices for ride management, driver notifications, payment processing, and more.",
+              "Spotify's music streaming platform is built with microservices handling search, playlists, and recommendations.",
+              "Airbnb transitioned to microservices to scale search, booking, and payment across global markets."
+            ],
+            "client_stories": [
+              "A fintech client reduced deployment times from weeks to hours after migrating to microservices.",
+              "A retail company improved resilience and uptime by isolating payment and inventory services.",
+              "A media firm enabled A/B testing of new features by deploying small microservices for experimentation.",
+              "A healthcare provider improved regulatory compliance by separating patient records into distinct services.",
+              "A logistics startup scaled rapidly by deploying containerized microservices on Kubernetes."
+            ],
+            "practical_issues": [
+              "Network latency and reliability issues due to increased inter-service communication.",
+              "Difficulty in debugging distributed transactions across multiple services.",
+              "Service versioning and backward compatibility challenges.",
+              "Data consistency and eventual consistency trade-offs with distributed databases.",
+              "Managing access control and security across multiple services."
+            ],
+            "historical_aspects": [
+              "Monolithic architectures dominated software design until around 2010.",
+              "SOA (Service-Oriented Architecture) laid the groundwork for microservices but was heavier and less agile.",
+              "The emergence of cloud computing and containers enabled practical microservices adoption.",
+              "Continuous delivery practices pushed organizations towards smaller, independently deployable services.",
+              "The Twelve-Factor App methodology (2012) influenced microservices design principles."
+            ],
+            "related_concepts": [
+              "Service-Oriented Architecture (SOA)",
+              "Containerization (Docker, Kubernetes)",
+              "API Gateway",
+              "Domain-Driven Design (DDD)",
+              "Event-Driven Architecture"
+            ],
+            "memorize_this": [
+              "Microservices should be independently deployable and scalable.",
+              "Each microservice owns its own data and business logic.",
+              "Loose coupling and high cohesion are key design principles.",
+              "Observability (logging, monitoring, tracing) is critical for production.",
+              "Automated deployment and CI/CD pipelines are essential for agility."
+            ],
+            "eli5": [
+              "Microservices are like a team of specialized robots, each doing one job really well and talking to each other when needed.",
+              "Instead of one big computer program, microservices break it into small pieces that can work and be fixed separately.",
+              "If one microservice (robot) breaks, the others can still work, so the whole system doesn't stop.",
+              "You can upgrade or replace one microservice without touching the others.",
+              "Each microservice has its own little brain (database) and doesn't share it with others."
+            ],
+            "analogies": [
+              "Microservices are like a fleet of food trucks, each serving a different dish but working together to feed a crowd.",
+              "A monolith is a Swiss Army knife — everything in one; microservices are separate specialized tools.",
+              "Microservices are like apps on your phone — each does its own thing, updated individually.",
+              "Think of a car made from replaceable parts; microservices let you swap or upgrade parts easily.",
+              "Microservices are like independent shops in a mall — each runs its business but shares infrastructure."
+            ],
+            "ideal_usage": [
+              "When you need rapid, independent deployment of features.",
+              "When your application must scale different components at different rates.",
+              "For teams working on different business domains with minimal interference.",
+              "When you want resilience: failures in one service don’t bring down the whole system.",
+              "For cloud-native applications requiring automation and high availability."
+            ],
+            "mcqs": [
+              {
+                "question": "What is a key benefit of microservices architecture?",
+                "options": [
+                  "Tightly coupled components",
+                  "Monolithic deployment",
+                  "Independent scalability",
+                  "Single shared database"
+                ],
+                "correct": 2,
+                "explanation": "Microservices enable independent scalability of components, unlike monolithic architectures."
+              },
+              {
+                "question": "In microservices, why should each service own its own data?",
+                "options": [
+                  "To simplify the codebase",
+                  "To enable independent deployment and scaling",
+                  "To reduce network calls",
+                  "To avoid security issues"
+                ],
+                "correct": 1,
+                "explanation": "Owning its own data lets each service be independently deployed and scaled."
+              },
+              {
+                "question": "Which technology is commonly used for orchestrating microservices?",
+                "options": [
+                  "Apache Tomcat",
+                  "Kubernetes",
+                  "MySQL",
+                  "Redis"
+                ],
+                "correct": 1,
+                "explanation": "Kubernetes is widely used for orchestrating containerized microservices."
+              },
+              {
+                "question": "Which principle is NOT a microservices design principle?",
+                "options": [
+                  "Loose coupling",
+                  "High cohesion",
+                  "Centralized data storage",
+                  "Independent deployment"
+                ],
+                "correct": 2,
+                "explanation": "Microservices avoid centralized data storage to maintain independence."
+              },
+              {
+                "question": "What is the primary communication method between microservices?",
+                "options": [
+                  "Shared memory",
+                  "RESTful APIs or messaging",
+                  "Direct database access",
+                  "Local function calls"
+                ],
+                "correct": 1,
+                "explanation": "Microservices communicate via APIs or messaging, not shared memory or direct database access."
+              }
+            ],
+            "thought_provoking": [
+              "How do you balance service granularity versus operational complexity?",
+              "Can microservices become too small, leading to 'nano-services' and overhead?",
+              "How might microservices evolve with AI-driven orchestration and self-healing?",
+              "What are the ethical and regulatory implications of distributed data ownership?",
+              "How do you ensure consistency and reliability in a highly distributed system?"
+            ],
+            "best_practices": [
+              "Define clear service boundaries based on business capabilities.",
+              "Automate testing, deployment, and monitoring for every service.",
+              "Use API gateways for unified routing and security.",
+              "Implement centralized logging and distributed tracing.",
+              "Design for failure: build resilient, self-healing services."
+            ],
+            "anti_patterns": [
+              "Shared database across microservices, leading to tight coupling.",
+              "Too many inter-service synchronous calls, causing latency and fragility.",
+              "Overly granular services (‘nano-services’) increasing maintenance overhead.",
+              "Ignoring backward compatibility in APIs, breaking consumers.",
+              "Lack of proper observability, making troubleshooting difficult."
+            ],
+            "tools_technologies": [
+              "Docker (containerization)",
+              "Kubernetes (orchestration)",
+              "Spring Boot (Java microservices framework)",
+              "Istio (service mesh)",
+              "Consul or Eureka (service discovery)"
+            ],
+            "interview_questions": [
+              "Explain the difference between microservices and monolithic architectures.",
+              "How do you handle data consistency across microservices?",
+              "What is service discovery and why is it important?",
+              "Describe strategies for securing microservices.",
+              "How would you design observability for a microservices system?"
+            ],
+            "hands_on_exercises": [
+              "Build a simple RESTful microservice using Python Flask.",
+              "Containerize your microservice with Docker and run it locally.",
+              "Deploy multiple microservices onto Kubernetes and expose them via an API Gateway.",
+              "Implement distributed tracing using OpenTelemetry or Jaeger.",
+              "Simulate network failures and observe resilience in your microservices setup."
+            ],
+            "further_reading": [
+              "Building Microservices by Sam Newman",
+              "Microservices Patterns by Chris Richardson",
+              "The Twelve-Factor App: https://12factor.net/",
+              "Google Cloud Microservices Architecture Guide: https://cloud.google.com/solutions/microservices-architecture",
+              "Martin Fowler: Microservices Resource Guide: https://martinfowler.com/microservices/"
+            ]
+          }
+        },
+        "Service Decomposition and Domain-Driven Design (DDD)": {
+          "topic_id": "9799888f",
+          "content": {
+            "titbits": [
+              "Service decomposition is not just about breaking a monolith into smaller services; it's about aligning services with business capabilities.",
+              "Domain-Driven Design (DDD) introduces the concept of bounded contexts to help define clear service boundaries.",
+              "Microservices should be loosely coupled but highly cohesive, focusing on a single business domain.",
+              "Communication between microservices is often implemented using RESTful APIs, gRPC, or messaging systems like Kafka.",
+              "A well-designed microservice rarely shares its database with other services; each service owns its data."
+            ],
+            "code_snippets": [
+              {
+                "language": "python",
+                "description": "Simple RESTful service for Order Management (bounded context)",
+                "code": "from flask import Flask, request\napp = Flask(__name__)\norders = {}\n\n@app.route('/orders', methods=['POST'])\ndef create_order():\n    data = request.json\n    order_id = len(orders) + 1\n    orders[order_id] = data\n    return {'order_id': order_id}, 201\n\n@app.route('/orders/<int:order_id>', methods=['GET'])\ndef get_order(order_id):\n    return orders.get(order_id, {}), 200\n"
+              },
+              {
+                "language": "python",
+                "description": "Event-driven communication between microservices using Kafka",
+                "code": "from kafka import KafkaProducer\nimport json\n\nproducer = KafkaProducer(bootstrap_servers='localhost:9092')\norder_event = {'order_id': 1, 'status': 'created'}\nproducer.send('order_events', json.dumps(order_event).encode('utf-8'))"
+              },
+              {
+                "language": "python",
+                "description": "Implementing Repository Pattern for user management microservice",
+                "code": "class UserRepository:\n    def __init__(self, db):\n        self.db = db\n    def get_user(self, user_id):\n        return self.db.query(User).filter(User.id == user_id).first()\n    def save_user(self, user):\n        self.db.add(user)\n        self.db.commit()"
+              },
+              {
+                "language": "python",
+                "description": "Using DTOs to isolate service boundaries (OrderDTO example)",
+                "code": "class OrderDTO:\n    def __init__(self, order_id, customer_id, items):\n        self.order_id = order_id\n        self.customer_id = customer_id\n        self.items = items"
+              },
+              {
+                "language": "python",
+                "description": "Service registry example using Consul for service discovery",
+                "code": "# Register service with Consul\nimport requests\nservice_def = {\n    \"Name\": \"order-service\",\n    \"Address\": \"127.0.0.1\",\n    \"Port\": 5000\n}\nrequests.put('http://localhost:8500/v1/agent/service/register', json=service_def)"
+              }
+            ],
+            "use_cases": [
+              "Decomposing a legacy e-commerce application into microservices such as Cart, Catalog, Order, and Payment based on business domains.",
+              "Applying DDD to a banking system by identifying bounded contexts like Accounts, Loans, and Transactions.",
+              "Building a SaaS platform where each tenant's data and business logic are handled by separate microservices.",
+              "Implementing service decomposition for an online learning platform with core services like Courses, Users, and Assessments.",
+              "Splitting a healthcare management system into Patient, Doctor, Appointment, and Billing services, each with its own bounded context."
+            ],
+            "real_examples": [
+              "Netflix migrated from a monolithic architecture to microservices using domain-driven approaches, enabling independent teams to manage different parts of the platform.",
+              "Amazon decomposed its retail platform into hundreds of microservices, each responsible for a specific business capability like product search or order fulfillment.",
+              "Uber applies DDD to define clear service boundaries for trip management, payments, and notifications.",
+              "Spotify uses microservices for features like music catalog, playlist management, and user profiles, each mapped to a distinct domain.",
+              "Airbnb transitioned to microservices, breaking down monolithic application into Booking, Listings, Payments, and User Profile services."
+            ],
+            "client_stories": [
+              "A fintech startup reduced deployment times and improved scalability by decomposing its monolithic payments application into microservices using DDD.",
+              "A retail client faced frequent outages in their monolith; after service decomposition, each business domain (inventory, checkout, shipping) could be deployed independently.",
+              "A healthcare company improved HIPAA compliance by isolating patient data within a dedicated microservice aligned to the Patient domain.",
+              "An education technology firm increased feature velocity by allowing teams to own individual microservices mapped to business domains like Course, User, and Assessment.",
+              "A logistics company reduced cross-team dependencies by rearchitecting their system with DDD and deploying domain-aligned microservices for Fleet, Orders, and Tracking."
+            ],
+            "practical_issues": [
+              "Incorrectly defined service boundaries leading to frequent cross-service calls and performance bottlenecks.",
+              "Data consistency challenges when transactions span across multiple microservices (solved by using eventual consistency and sagas).",
+              "Difficulty in identifying domains and bounded contexts without deep business knowledge (solved by collaborative domain modeling workshops).",
+              "Complexity in managing distributed transactions (use of patterns like CQRS and Event Sourcing).",
+              "Overhead of managing many small services, increasing operational complexity (solved by service orchestration and monitoring tools)."
+            ],
+            "historical_aspects": [
+              "The concept of microservices evolved from Service-Oriented Architecture (SOA) but emphasizes smaller, independently deployable services.",
+              "Eric Evans introduced Domain-Driven Design (DDD) in 2003, focusing on modeling software around business domains.",
+              "Early microservices architectures often failed due to lack of proper domain modeling, leading to distributed monoliths.",
+              "With the rise of cloud-native technologies, microservices became more practical and popular in the mid-2010s.",
+              "The introduction of containers and orchestration tools like Docker and Kubernetes accelerated microservices adoption."
+            ],
+            "related_concepts": [
+              "Bounded Contexts (DDD)",
+              "API Gateway",
+              "Event Sourcing",
+              "CQRS (Command Query Responsibility Segregation)",
+              "Service Registry and Discovery"
+            ],
+            "memorize_this": [
+              "Each microservice should align with a single business capability or domain.",
+              "Bounded Contexts help define clear service boundaries and avoid data/model leakage.",
+              "Avoid shared databases between microservices; each service should own its data.",
+              "Cross-service communication should be minimized and handled asynchronously when possible.",
+              "Service decomposition should be driven by business needs, not just technical convenience."
+            ],
+            "eli5": [
+              "Imagine breaking a big LEGO castle into smaller castles where each one has its own set of rules and pieces.",
+              "Think of microservices like different shops in a mall: each shop serves a different purpose and manages its own products.",
+              "DDD is like drawing lines on a map so each neighborhood knows its own rules and boundaries.",
+              "Service decomposition is splitting a big job into smaller jobs, each done by a different expert.",
+              "Microservices are like different apps on your phone, each doing a unique thing but working together for you."
+            ],
+            "analogies": [
+              "Service decomposition is like separating ingredients in a kitchen so each chef can focus on their specialty dish.",
+              "DDD is similar to defining departments in a company where each department handles its own tasks and responsibilities.",
+              "Microservices are like organs in a body, each performing a specific function independently but contributing to the whole.",
+              "Bounded contexts are like different sports fields with their own rules and equipment.",
+              "Decomposing services is like splitting a large book into chapters, each covering a distinct topic."
+            ],
+            "ideal_usage": [
+              "When building a large, complex application where teams need to work independently on different business areas.",
+              "When scaling an application that has reached the limits of a monolithic architecture.",
+              "When business requirements evolve rapidly and isolated changes are critical.",
+              "When regulatory or compliance needs require strict separation of data and logic.",
+              "When optimizing for high availability and resiliency by reducing blast radius of failures."
+            ],
+            "mcqs": [
+              {
+                "question": "Which concept in DDD helps define clear boundaries for microservices?",
+                "options": [
+                  "Entity",
+                  "Bounded Context",
+                  "Repository",
+                  "Aggregate"
+                ],
+                "correct": 1,
+                "explanation": "Bounded Context defines the boundaries within which a particular domain model applies."
+              },
+              {
+                "question": "What is a common mistake when decomposing services?",
+                "options": [
+                  "Aligning services with business domains",
+                  "Sharing databases between services",
+                  "Using asynchronous communication",
+                  "Defining APIs for each service"
+                ],
+                "correct": 1,
+                "explanation": "Sharing databases between microservices breaks service isolation and leads to tight coupling."
+              },
+              {
+                "question": "How does service decomposition improve scalability?",
+                "options": [
+                  "By combining functionality",
+                  "By allowing independent scaling of each service",
+                  "By sharing resources across services",
+                  "By using a single deployment pipeline"
+                ],
+                "correct": 1,
+                "explanation": "Independent services can be scaled up or down based on their specific load."
+              },
+              {
+                "question": "Which pattern helps manage distributed transactions across microservices?",
+                "options": [
+                  "Repository Pattern",
+                  "Saga Pattern",
+                  "Singleton Pattern",
+                  "Adapter Pattern"
+                ],
+                "correct": 1,
+                "explanation": "Saga Pattern manages long-running transactions across multiple services."
+              },
+              {
+                "question": "Why is business knowledge critical in service decomposition?",
+                "options": [
+                  "To optimize database queries",
+                  "To ensure correct service boundaries",
+                  "To choose a programming language",
+                  "To implement caching strategies"
+                ],
+                "correct": 1,
+                "explanation": "Understanding business domains is essential to define meaningful service boundaries."
+              }
+            ],
+            "thought_provoking": [
+              "How do you balance granularity and complexity when decomposing services?",
+              "What are the risks of incorrect domain modeling in a microservices architecture?",
+              "Can microservices ever be too small? Where is the tipping point?",
+              "How does organizational structure influence service decomposition?",
+              "What trade-offs exist between strong consistency and eventual consistency in distributed domains?"
+            ],
+            "best_practices": [
+              "Collaborate with domain experts and use domain modeling workshops before decomposing services.",
+              "Define clear bounded contexts and service ownership to avoid overlapping responsibilities.",
+              "Use API contracts and DTOs to isolate service boundaries and prevent model leakage.",
+              "Implement robust inter-service communication patterns like asynchronous messaging for reliability.",
+              "Monitor and log service interactions to quickly identify cross-domain issues."
+            ],
+            "anti_patterns": [
+              "Creating microservices that are too granular, causing excessive communication overhead.",
+              "Sharing databases or data models between services, leading to tight coupling.",
+              "Ignoring business domains and decomposing solely by technical layers (e.g., splitting by CRUD operations).",
+              "Hardcoding communication logic between services instead of using service discovery.",
+              "Neglecting eventual consistency requirements in distributed transactions."
+            ],
+            "tools_technologies": [
+              "Spring Boot (Java) and .NET Core (C#) for building microservices.",
+              "Docker and Kubernetes for containerization and orchestration.",
+              "Apache Kafka and RabbitMQ for asynchronous messaging.",
+              "Consul and Eureka for service registry and discovery.",
+              "Swagger/OpenAPI for documenting service APIs."
+            ],
+            "interview_questions": [
+              "How would you identify bounded contexts in a new business domain?",
+              "Describe a situation where service decomposition improved system scalability.",
+              "How do you handle transactions that span multiple microservices?",
+              "What are the risks of sharing a database across microservices?",
+              "Explain how DDD influences microservices design."
+            ],
+            "hands_on_exercises": [
+              "Model a simple e-commerce domain and decompose it into microservices using DDD principles.",
+              "Implement a RESTful microservice for a specific domain (e.g., Orders), ensuring it owns its data.",
+              "Set up asynchronous communication between two services using Kafka or RabbitMQ.",
+              "Draw a context map for a multi-domain system, identifying bounded contexts and service boundaries.",
+              "Refactor a monolithic application module into a microservice, documenting the decomposition process."
+            ],
+            "further_reading": [
+              "Domain-Driven Design: Tackling Complexity in the Heart of Software by Eric Evans",
+              "Building Microservices by Sam Newman",
+              "Microservices Patterns by Chris Richardson",
+              "Implementing Domain-Driven Design by Vaughn Vernon",
+              "ThoughtWorks Technology Radar: Microservices and DDD insights"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solution Architect Learning Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .header-title {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        /* Search */
+        .search-container {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .search-clear {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem;
+            display: none;
+        }
+
+        .search-clear.show {
+            display: block;
+        }
+
+        .search-results {
+            margin-top: 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            border: 2px dashed var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .upload-section.dragover {
+            border-color: var(--primary-color);
+            background: var(--bg-secondary);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .upload-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .upload-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-success {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        /* Progress Overview */
+        .progress-overview {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            border-radius: 999px;
+            transition: width 0.5s ease;
+        }
+
+        /* Metadata */
+        .metadata {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .metadata-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .metadata-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Content Section */
+        .content-section {
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Field */
+        .field {
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .field:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .field-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .field-header:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b43a0 100%);
+        }
+
+        .field-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .field-stats {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .field-progress {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .field.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .field-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .field.expanded .field-content {
+            max-height: 50000px;
+        }
+
+        /* Topic */
+        .topic {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .topic:last-child {
+            border-bottom: none;
+        }
+
+        .topic-header {
+            background: var(--bg-secondary);
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .topic-header:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .topic-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .topic-progress {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: var(--bg-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .topic-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: var(--bg-primary);
+        }
+
+        .topic.expanded .topic-content {
+            max-height: 30000px;
+        }
+
+        /* Category Tabs Navigation */
+        .category-tabs {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-tabs::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .category-tab {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin-right: 0.5rem;
+            border-radius: var(--radius-md);
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .category-tab:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--primary-color);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .category-tab .tab-icon {
+            margin-right: 0.5rem;
+        }
+
+        .category-tab .tab-count {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.1rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+        }
+
+        .category-tab.active .tab-count {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .category-panels {
+            padding: 1.5rem;
+        }
+
+        .category-panel {
+            display: none;
+        }
+
+        .category-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Content Items */
+        .content-category {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .content-category:last-child {
+            border-bottom: none;
+        }
+
+        .category-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.85rem;
+        }
+
+        .content-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: all 0.2s ease;
+        }
+
+        .content-item:hover {
+            background: var(--bg-tertiary);
+            transform: translateX(5px);
+        }
+
+        .content-item.completed {
+            opacity: 0.6;
+        }
+
+        .content-item.completed .item-text {
+            text-decoration: line-through;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            padding-top: 0.15rem;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--secondary-color);
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-text {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .item-code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-top: 0.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .item-language {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .mcq-options {
+            margin: 0.75rem 0;
+        }
+
+        .mcq-option {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-option:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .mcq-option.correct {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .mcq-option.wrong {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .mcq-explanation {
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: #fef3c7;
+            border-left: 4px solid var(--accent-color);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .mcq-explanation.show {
+            display: block;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            opacity: 0.3;
+            margin-bottom: 1rem;
+        }
+
+        /* Search Highlight */
+        .highlight {
+            background: #fef08a;
+            padding: 0.1rem 0.2rem;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .progress-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .field-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-end;
+            }
+
+            .metadata {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .content-section {
+                padding: 1rem;
+            }
+
+            .field-header {
+                padding: 1rem;
+            }
+
+            .field-title {
+                font-size: 1.1rem;
+            }
+
+            .category-tabs {
+                padding: 0.75rem;
+            }
+
+            .category-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+                margin-right: 0.25rem;
+                margin-bottom: 0.25rem;
+            }
+
+            .category-tab .tab-icon {
+                display: none;
+            }
+
+            .search-container {
+                padding: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            background-color: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Hide file input */
+        input[type="file"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>🎓 Solution Architect Learning Tracker</h1>
+                    <p class="subtitle">Master your learning journey with comprehensive tracking</p>
+                </div>
+                <div class="header-actions" id="headerActions" style="display: none;">
+                    <button class="btn btn-secondary" onclick="resetProgress()">
+                        🔄 Reset Progress
+                    </button>
+                    <button class="btn btn-danger" onclick="clearData()">
+                        🗑️ Clear Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section" id="uploadSection">
+            <div class="upload-icon">📁</div>
+            <h2>Upload Your Learning Curriculum</h2>
+            <p>Drag and drop your JSON file here, or click to browse</p>
+            <input type="file" id="fileInput" accept=".json" onchange="handleFileUpload(event)">
+            <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                📤 Choose File
+            </button>
+        </div>
+
+        <!-- Search -->
+        <div class="search-container" id="searchContainer" style="display: none;">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput" 
+                    placeholder="Search across all fields, topics, and content..."
+                    oninput="handleSearch()"
+                >
+                <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview" id="progressOverview" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-value" id="overallProgress">0%</div>
+                <div class="stat-label">Overall Progress</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="overallProgressBar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="completedItems">0</div>
+                <div class="stat-label">Completed Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalItems">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="fieldsCompleted">0</div>
+                <div class="stat-label">Fields Mastered</div>
+            </div>
+        </div>
+
+        <!-- Metadata -->
+        <div class="metadata" id="metadata" style="display: none;">
+            <div class="metadata-item">
+                <span>📚 Domain:</span>
+                <span class="metadata-value" id="metaDomain">-</span>
+            </div>
+            <div class="metadata-item">
+                <span>📊 Version:</span>
+                <span class="metadata-value" id="metaVersion">-</span>
+            </div>
+            <div class="metadata-item">
+                <span>📅 Created:</span>
+                <span class="metadata-value" id="metaCreated">-</span>
+            </div>
+            <div class="metadata-item">
+                <span>🔢 Fields:</span>
+                <span class="metadata-value" id="metaFields">-</span>
+            </div>
+            <div class="metadata-item">
+                <span>📝 Topics:</span>
+                <span class="metadata-value" id="metaTopics">-</span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content-section" id="contentSection" style="display: none;">
+            <div id="fieldsContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let curriculumData = null;
+        let progressData = {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            setupDragAndDrop();
+        });
+
+        // Drag and drop
+        function setupDragAndDrop() {
+            const uploadSection = document.getElementById('uploadSection');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadSection.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadSection.addEventListener(eventName, () => {
+                    uploadSection.classList.add('dragover');
+                }, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadSection.addEventListener(eventName, () => {
+                    uploadSection.classList.remove('dragover');
+                }, false);
+            });
+
+            uploadSection.addEventListener('drop', handleDrop, false);
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        // Handle file upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        function handleFile(file) {
+            if (!file.name.endsWith('.json')) {
+                alert('Please upload a JSON file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    curriculumData = JSON.parse(e.target.result);
+                    renderCurriculum();
+                } catch (error) {
+                    alert('Error parsing JSON file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // Render curriculum
+        function renderCurriculum() {
+            // Hide upload, show content
+            document.getElementById('uploadSection').style.display = 'none';
+            document.getElementById('headerActions').style.display = 'flex';
+            document.getElementById('searchContainer').style.display = 'block';
+            document.getElementById('progressOverview').style.display = 'grid';
+            document.getElementById('metadata').style.display = 'flex';
+            document.getElementById('contentSection').style.display = 'block';
+
+            // Render metadata
+            renderMetadata();
+
+            // Render fields
+            renderFields();
+
+            // Update progress
+            updateProgress();
+        }
+
+        function renderMetadata() {
+            const meta = curriculumData.metadata;
+            document.getElementById('metaDomain').textContent = meta.domain || 'N/A';
+            document.getElementById('metaVersion').textContent = 'v' + (meta.version || '1');
+            document.getElementById('metaCreated').textContent = new Date(meta.created_at).toLocaleDateString();
+            document.getElementById('metaFields').textContent = meta.total_fields || '0';
+            document.getElementById('metaTopics').textContent = meta.total_topics || '0';
+        }
+
+        function renderFields() {
+            const container = document.getElementById('fieldsContainer');
+            container.innerHTML = '';
+
+            const fields = curriculumData.fields;
+            Object.keys(fields).forEach(fieldName => {
+                const field = fields[fieldName];
+                const fieldElement = createFieldElement(fieldName, field);
+                container.appendChild(fieldElement);
+            });
+        }
+
+        function createFieldElement(fieldName, field) {
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'field';
+            fieldDiv.id = `field-${field.field_id}`;
+
+            const fieldProgress = calculateFieldProgress(fieldName, field);
+
+            fieldDiv.innerHTML = `
+                <div class="field-header" onclick="toggleField('${field.field_id}')">
+                    <div class="field-title">
+                        <span>${fieldName}</span>
+                    </div>
+                    <div class="field-stats">
+                        <div class="field-progress">${fieldProgress.completed}/${fieldProgress.total} (${fieldProgress.percentage}%)</div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                </div>
+                <div class="field-content" id="field-content-${field.field_id}">
+                    ${createTopicsHTML(fieldName, field)}
+                </div>
+            `;
+
+            return fieldDiv;
+        }
+
+        function createTopicsHTML(fieldName, field) {
+            let html = '';
+            const topics = field.topics;
+            
+            Object.keys(topics).forEach(topicName => {
+                const topic = topics[topicName];
+                const topicProgress = calculateTopicProgress(fieldName, topicName, topic);
+                
+                html += `
+                    <div class="topic" id="topic-${topic.topic_id}">
+                        <div class="topic-header" onclick="toggleTopic('${topic.topic_id}')">
+                            <div class="topic-title">
+                                <span>📌</span>
+                                <span>${topicName}</span>
+                            </div>
+                            <div class="topic-progress">${topicProgress.completed}/${topicProgress.total}</div>
+                        </div>
+                        <div class="topic-content" id="topic-content-${topic.topic_id}">
+                            ${createContentHTML(fieldName, topicName, topic)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            return html;
+        }
+
+        function createContentHTML(fieldName, topicName, topic) {
+            const content = topic.content;
+            
+            const categoryIcons = {
+                'titbits': '💡',
+                'code_snippets': '💻',
+                'use_cases': '🎯',
+                'real_examples': '🌟',
+                'client_stories': '👥',
+                'practical_issues': '⚠️',
+                'historical_aspects': '📜',
+                'related_concepts': '🔗',
+                'memorize_this': '🧠',
+                'eli5': '👶',
+                'analogies': '🔄',
+                'ideal_usage': '✨',
+                'mcqs': '❓',
+                'thought_provoking': '💭',
+                'best_practices': '✅',
+                'anti_patterns': '❌',
+                'tools_technologies': '🛠️',
+                'interview_questions': '🎤',
+                'hands_on_exercises': '🏋️',
+                'further_reading': '📚'
+            };
+
+            const categoryNames = {
+                'titbits': 'Facts',
+                'code_snippets': 'Code',
+                'use_cases': 'Use Cases',
+                'real_examples': 'Examples',
+                'client_stories': 'Stories',
+                'practical_issues': 'Issues',
+                'historical_aspects': 'History',
+                'related_concepts': 'Related',
+                'memorize_this': 'Key Points',
+                'eli5': 'ELI5',
+                'analogies': 'Analogies',
+                'ideal_usage': 'Usage',
+                'mcqs': 'Quiz',
+                'thought_provoking': 'Ideas',
+                'best_practices': 'Best Practices',
+                'anti_patterns': 'Anti-Patterns',
+                'tools_technologies': 'Tools',
+                'interview_questions': 'Interview',
+                'hands_on_exercises': 'Exercises',
+                'further_reading': 'Reading'
+            };
+
+            // Build tabs
+            let tabsHtml = '<div class="category-tabs">';
+            let panelsHtml = '<div class="category-panels">';
+            
+            let firstTab = true;
+            Object.keys(content).forEach(categoryKey => {
+                const items = content[categoryKey];
+                if (!items || items.length === 0) return;
+
+                const icon = categoryIcons[categoryKey] || '📋';
+                const name = categoryNames[categoryKey] || categoryKey.replace(/_/g, ' ');
+                const topicId = topic.topic_id;
+                const activeClass = firstTab ? 'active' : '';
+                
+                tabsHtml += `
+                    <div class="category-tab ${activeClass}" 
+                         onclick="switchTab('${topicId}', '${categoryKey}')"
+                         data-category="${categoryKey}">
+                        <span class="tab-icon">${icon}</span>
+                        <span>${name}</span>
+                        <span class="tab-count">${items.length}</span>
+                    </div>
+                `;
+
+                // Build panel content
+                panelsHtml += `
+                    <div class="category-panel ${activeClass}" id="panel-${topicId}-${categoryKey}">
+                `;
+
+                items.forEach((item, index) => {
+                    const itemId = `${fieldName}|${topicName}|${categoryKey}|${index}`;
+                    const isChecked = progressData[itemId] ? 'checked' : '';
+                    const isCompleted = progressData[itemId] ? 'completed' : '';
+
+                    if (categoryKey === 'code_snippets' && item.code) {
+                        panelsHtml += `
+                            <div class="content-item ${isCompleted}">
+                                <div class="checkbox-wrapper" onclick="toggleCheckbox('${itemId}')">
+                                    <input type="checkbox" ${isChecked} onclick="event.stopPropagation();">
+                                </div>
+                                <div class="item-content">
+                                    <div class="item-text">${item.description || 'Code Example'}</div>
+                                    <div class="item-language">${item.language || 'code'}</div>
+                                    <div class="item-code">${escapeHtml(item.code)}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (categoryKey === 'mcqs' && item.question) {
+                        panelsHtml += createMCQHTML(item, index, itemId, isChecked, isCompleted);
+                    } else if (typeof item === 'string') {
+                        panelsHtml += `
+                            <div class="content-item ${isCompleted}">
+                                <div class="checkbox-wrapper" onclick="toggleCheckbox('${itemId}')">
+                                    <input type="checkbox" ${isChecked} onclick="event.stopPropagation();">
+                                </div>
+                                <div class="item-content">
+                                    <div class="item-text">${item}</div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                });
+
+                panelsHtml += '</div>';
+                
+                firstTab = false;
+            });
+
+            tabsHtml += '</div>';
+            panelsHtml += '</div>';
+
+            return tabsHtml + panelsHtml;
+        }
+
+        function createMCQHTML(mcq, index, itemId, isChecked, isCompleted) {
+            const mcqId = `mcq-${itemId.replace(/\|/g, '-')}`;
+            return `
+                <div class="content-item ${isCompleted}">
+                    <div class="checkbox-wrapper" onclick="toggleCheckbox('${itemId}')">
+                        <input type="checkbox" ${isChecked} onclick="event.stopPropagation();">
+                    </div>
+                    <div class="item-content">
+                        <div class="item-text"><strong>${mcq.question}</strong></div>
+                        <div class="mcq-options">
+                            ${mcq.options.map((option, i) => `
+                                <div class="mcq-option" onclick="checkMCQ('${mcqId}', ${i}, ${mcq.correct})">
+                                    ${String.fromCharCode(65 + i)}. ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="mcq-explanation" id="${mcqId}-explanation">
+                            💡 ${mcq.explanation || 'Correct answer: ' + String.fromCharCode(65 + mcq.correct)}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // MCQ checking
+        function checkMCQ(mcqId, selectedIndex, correctIndex) {
+            const options = document.querySelectorAll(`#${mcqId.replace(/\|/g, '-')}`).parentElement.querySelectorAll('.mcq-option');
+            const explanation = document.getElementById(`${mcqId}-explanation`);
+            
+            options.forEach((option, i) => {
+                option.classList.remove('correct', 'wrong');
+                if (i === selectedIndex) {
+                    if (i === correctIndex) {
+                        option.classList.add('correct');
+                    } else {
+                        option.classList.add('wrong');
+                    }
+                }
+                if (i === correctIndex) {
+                    option.classList.add('correct');
+                }
+            });
+
+            explanation.classList.add('show');
+        }
+
+        // Toggle functions
+        function toggleField(fieldId) {
+            const field = document.getElementById(`field-${fieldId}`);
+            field.classList.toggle('expanded');
+        }
+
+        function toggleTopic(topicId) {
+            const topic = document.getElementById(`topic-${topicId}`);
+            topic.classList.toggle('expanded');
+        }
+
+        function toggleCheckbox(itemId) {
+            progressData[itemId] = !progressData[itemId];
+            saveProgress();
+            updateProgress();
+            
+            // Update just this item's UI
+            const checkbox = document.querySelector(`input[type="checkbox"][onclick*="${itemId}"]`);
+            if (checkbox) {
+                checkbox.checked = progressData[itemId];
+                const contentItem = checkbox.closest('.content-item');
+                if (contentItem) {
+                    if (progressData[itemId]) {
+                        contentItem.classList.add('completed');
+                    } else {
+                        contentItem.classList.remove('completed');
+                    }
+                }
+            }
+            
+            // Update progress numbers without re-rendering
+            updateProgressOnly();
+        }
+
+        function updateProgressOnly() {
+            // Just update the numbers without re-rendering
+            let totalItems = 0;
+            let completedItems = 0;
+            let totalFields = 0;
+            let completedFields = 0;
+
+            const fields = curriculumData.fields;
+            Object.keys(fields).forEach(fieldName => {
+                const field = fields[fieldName];
+                const fieldProgress = calculateFieldProgress(fieldName, field);
+                
+                totalItems += fieldProgress.total;
+                completedItems += fieldProgress.completed;
+                totalFields++;
+                
+                if (fieldProgress.percentage === 100) {
+                    completedFields++;
+                }
+                
+                // Update field progress display
+                const fieldElement = document.getElementById(`field-${field.field_id}`);
+                if (fieldElement) {
+                    const progressDisplay = fieldElement.querySelector('.field-progress');
+                    if (progressDisplay) {
+                        progressDisplay.textContent = `${fieldProgress.completed}/${fieldProgress.total} (${fieldProgress.percentage}%)`;
+                    }
+                }
+                
+                // Update topic progress displays
+                Object.keys(field.topics).forEach(topicName => {
+                    const topic = field.topics[topicName];
+                    const topicProgress = calculateTopicProgress(fieldName, topicName, topic);
+                    const topicElement = document.getElementById(`topic-${topic.topic_id}`);
+                    if (topicElement) {
+                        const topicProgressDisplay = topicElement.querySelector('.topic-progress');
+                        if (topicProgressDisplay) {
+                            topicProgressDisplay.textContent = `${topicProgress.completed}/${topicProgress.total}`;
+                        }
+                    }
+                });
+            });
+
+            const overallPercentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+            document.getElementById('overallProgress').textContent = `${overallPercentage}%`;
+            document.getElementById('overallProgressBar').style.width = `${overallPercentage}%`;
+            document.getElementById('completedItems').textContent = completedItems.toLocaleString();
+            document.getElementById('totalItems').textContent = totalItems.toLocaleString();
+            document.getElementById('fieldsCompleted').textContent = `${completedFields}/${totalFields}`;
+        }
+
+        // Tab switching
+        function switchTab(topicId, categoryKey) {
+            // Get all tabs and panels for this topic
+            const topicElement = document.getElementById(`topic-${topicId}`);
+            if (!topicElement) return;
+            
+            const tabs = topicElement.querySelectorAll('.category-tab');
+            const panels = topicElement.querySelectorAll('.category-panel');
+            
+            // Remove active class from all
+            tabs.forEach(tab => tab.classList.remove('active'));
+            panels.forEach(panel => panel.classList.remove('active'));
+            
+            // Add active class to selected
+            const selectedTab = topicElement.querySelector(`.category-tab[data-category="${categoryKey}"]`);
+            const selectedPanel = document.getElementById(`panel-${topicId}-${categoryKey}`);
+            
+            if (selectedTab) selectedTab.classList.add('active');
+            if (selectedPanel) selectedPanel.classList.add('active');
+        }
+
+        // Search functionality
+        let searchTimeout = null;
+        
+        function handleSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            const query = searchInput.value.trim().toLowerCase();
+            
+            // Show/hide clear button
+            if (query) {
+                searchClear.classList.add('show');
+            } else {
+                searchClear.classList.remove('show');
+            }
+            
+            // Debounce search
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        }
+        
+        function performSearch(query) {
+            if (!query) {
+                // Show all, remove highlights
+                document.querySelectorAll('.field, .topic, .content-item').forEach(el => {
+                    el.classList.remove('hidden');
+                });
+                document.querySelectorAll('.highlight').forEach(el => {
+                    el.outerHTML = el.textContent;
+                });
+                document.getElementById('searchResults').textContent = '';
+                return;
+            }
+            
+            let totalMatches = 0;
+            let fieldMatches = 0;
+            let topicMatches = 0;
+            let itemMatches = 0;
+            
+            const fields = curriculumData.fields;
+            
+            Object.keys(fields).forEach(fieldName => {
+                const field = fields[fieldName];
+                const fieldElement = document.getElementById(`field-${field.field_id}`);
+                let fieldHasMatch = false;
+                
+                // Check field name
+                if (fieldName.toLowerCase().includes(query)) {
+                    fieldHasMatch = true;
+                    fieldMatches++;
+                }
+                
+                Object.keys(field.topics).forEach(topicName => {
+                    const topic = field.topics[topicName];
+                    const topicElement = document.getElementById(`topic-${topic.topic_id}`);
+                    let topicHasMatch = false;
+                    
+                    // Check topic name
+                    if (topicName.toLowerCase().includes(query)) {
+                        topicHasMatch = true;
+                        topicMatches++;
+                    }
+                    
+                    // Check content items
+                    const content = topic.content;
+                    Object.keys(content).forEach(categoryKey => {
+                        const items = content[categoryKey];
+                        if (!Array.isArray(items)) return;
+                        
+                        items.forEach((item, index) => {
+                            const itemId = `${fieldName}|${topicName}|${categoryKey}|${index}`;
+                            let itemText = '';
+                            
+                            if (typeof item === 'string') {
+                                itemText = item.toLowerCase();
+                            } else if (item.code) {
+                                itemText = (item.description + ' ' + item.code).toLowerCase();
+                            } else if (item.question) {
+                                itemText = (item.question + ' ' + item.options.join(' ')).toLowerCase();
+                            }
+                            
+                            if (itemText.includes(query)) {
+                                topicHasMatch = true;
+                                itemMatches++;
+                            }
+                        });
+                    });
+                    
+                    // Show/hide topic
+                    if (topicHasMatch) {
+                        fieldHasMatch = true;
+                        topicElement.classList.remove('hidden');
+                    } else {
+                        topicElement.classList.add('hidden');
+                    }
+                });
+                
+                // Show/hide field
+                if (fieldHasMatch) {
+                    fieldElement.classList.remove('hidden');
+                    // Auto-expand fields with matches
+                    fieldElement.classList.add('expanded');
+                } else {
+                    fieldElement.classList.add('hidden');
+                }
+            });
+            
+            totalMatches = fieldMatches + topicMatches + itemMatches;
+            
+            // Update search results
+            const resultsText = totalMatches > 0 
+                ? `Found ${totalMatches} matches (${fieldMatches} fields, ${topicMatches} topics, ${itemMatches} items)`
+                : 'No matches found';
+            document.getElementById('searchResults').textContent = resultsText;
+        }
+        
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchClear').classList.remove('show');
+            performSearch('');
+        }
+
+        // Progress calculation
+        function calculateFieldProgress(fieldName, field) {
+            let total = 0;
+            let completed = 0;
+
+            Object.keys(field.topics).forEach(topicName => {
+                const topic = field.topics[topicName];
+                const topicProgress = calculateTopicProgress(fieldName, topicName, topic);
+                total += topicProgress.total;
+                completed += topicProgress.completed;
+            });
+
+            return {
+                total,
+                completed,
+                percentage: total > 0 ? Math.round((completed / total) * 100) : 0
+            };
+        }
+
+        function calculateTopicProgress(fieldName, topicName, topic) {
+            let total = 0;
+            let completed = 0;
+
+            const content = topic.content;
+            Object.keys(content).forEach(categoryKey => {
+                const items = content[categoryKey];
+                if (Array.isArray(items)) {
+                    items.forEach((item, index) => {
+                        const itemId = `${fieldName}|${topicName}|${categoryKey}|${index}`;
+                        total++;
+                        if (progressData[itemId]) {
+                            completed++;
+                        }
+                    });
+                }
+            });
+
+            return { total, completed };
+        }
+
+        function updateProgress() {
+            let totalItems = 0;
+            let completedItems = 0;
+            let totalFields = 0;
+            let completedFields = 0;
+
+            const fields = curriculumData.fields;
+            Object.keys(fields).forEach(fieldName => {
+                const field = fields[fieldName];
+                const fieldProgress = calculateFieldProgress(fieldName, field);
+                
+                totalItems += fieldProgress.total;
+                completedItems += fieldProgress.completed;
+                totalFields++;
+                
+                if (fieldProgress.percentage === 100) {
+                    completedFields++;
+                }
+            });
+
+            const overallPercentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+            document.getElementById('overallProgress').textContent = `${overallPercentage}%`;
+            document.getElementById('overallProgressBar').style.width = `${overallPercentage}%`;
+            document.getElementById('completedItems').textContent = completedItems.toLocaleString();
+            document.getElementById('totalItems').textContent = totalItems.toLocaleString();
+            document.getElementById('fieldsCompleted').textContent = `${completedFields}/${totalFields}`;
+        }
+
+        // Progress persistence
+        function saveProgress() {
+            localStorage.setItem('sa_learning_progress', JSON.stringify(progressData));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('sa_learning_progress');
+            if (saved) {
+                progressData = JSON.parse(saved);
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                progressData = {};
+                saveProgress();
+                if (curriculumData) {
+                    renderFields();
+                    updateProgress();
+                }
+            }
+        }
+
+        function clearData() {
+            if (confirm('Are you sure you want to clear all data and start over? This will remove your progress and curriculum.')) {
+                progressData = {};
+                curriculumData = null;
+                localStorage.removeItem('sa_learning_progress');
+                location.reload();
+            }
+        }
+
+        // Utility
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+    </script>
+</body>
+</html>

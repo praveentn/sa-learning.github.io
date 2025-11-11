@@ -1,0 +1,334 @@
+{
+  "metadata": {
+    "domain": "Solution Architecture - Demo",
+    "version": 1,
+    "created_at": "2025-11-11T12:00:00",
+    "last_modified": "2025-11-11T12:00:00",
+    "total_fields": 2,
+    "total_topics": 4,
+    "total_items": 120
+  },
+  "fields": {
+    "Cloud Architecture": {
+      "field_id": "abc12345",
+      "topics": {
+        "Container Orchestration": {
+          "topic_id": "def67890",
+          "content": {
+            "titbits": [
+              "Kubernetes was originally designed by Google and is now maintained by the Cloud Native Computing Foundation",
+              "Docker containers share the host OS kernel, making them much lighter than virtual machines",
+              "A single Kubernetes cluster can manage thousands of containers across hundreds of nodes",
+              "Container orchestration automates deployment, scaling, and management of containerized applications",
+              "The term 'orchestration' comes from music, where a conductor coordinates multiple instruments"
+            ],
+            "code_snippets": [
+              {
+                "language": "yaml",
+                "description": "Basic Kubernetes deployment configuration",
+                "code": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: nginx-deployment\nspec:\n  replicas: 3\n  selector:\n    matchLabels:\n      app: nginx\n  template:\n    metadata:\n      labels:\n        app: nginx\n    spec:\n      containers:\n      - name: nginx\n        image: nginx:1.14.2\n        ports:\n        - containerPort: 80"
+              },
+              {
+                "language": "python",
+                "description": "Python script to interact with Kubernetes API",
+                "code": "from kubernetes import client, config\n\nconfig.load_kube_config()\nv1 = client.CoreV1Api()\n\nprint(\"Listing pods with their IPs:\")\nret = v1.list_pod_for_all_namespaces(watch=False)\nfor i in ret.items:\n    print(\"%s\\t%s\\t%s\" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))"
+              },
+              {
+                "language": "bash",
+                "description": "Docker compose for local development",
+                "code": "version: '3.8'\nservices:\n  web:\n    image: nginx:alpine\n    ports:\n      - \"8080:80\"\n    volumes:\n      - ./html:/usr/share/nginx/html\n  redis:\n    image: redis:alpine\n    ports:\n      - \"6379:6379\""
+              },
+              {
+                "language": "dockerfile",
+                "description": "Multi-stage Docker build for Node.js app",
+                "code": "# Build stage\nFROM node:16-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production\nCOPY . .\n\n# Production stage\nFROM node:16-alpine\nWORKDIR /app\nCOPY --from=builder /app .\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]"
+              },
+              {
+                "language": "yaml",
+                "description": "Kubernetes service for load balancing",
+                "code": "apiVersion: v1\nkind: Service\nmetadata:\n  name: my-service\nspec:\n  type: LoadBalancer\n  selector:\n    app: nginx\n  ports:\n  - protocol: TCP\n    port: 80\n    targetPort: 9376"
+              }
+            ],
+            "use_cases": [
+              "Microservices architecture where each service runs in its own container",
+              "CI/CD pipelines that automatically deploy containerized applications",
+              "Blue-green deployments for zero-downtime updates",
+              "Auto-scaling applications based on CPU/memory usage or custom metrics",
+              "Multi-cloud deployments using consistent container orchestration"
+            ],
+            "real_examples": [
+              "Netflix uses containers to handle billions of API requests per day",
+              "Spotify migrated 150+ services to Kubernetes, reducing deployment time from hours to minutes",
+              "Airbnb runs thousands of containers in production, serving millions of users",
+              "The New York Times moved their entire infrastructure to Kubernetes",
+              "CERN uses Kubernetes to process data from the Large Hadron Collider"
+            ],
+            "client_stories": [
+              "An e-commerce client reduced infrastructure costs by 40% after containerizing their monolith into microservices",
+              "A financial services company achieved 99.99% uptime using Kubernetes auto-healing capabilities",
+              "A healthcare provider scaled from 100 to 10,000 users in 3 months using container orchestration",
+              "A media streaming company handles traffic spikes during live events using auto-scaling containers",
+              "A retail client deployed updates 10x faster after implementing container-based CI/CD"
+            ],
+            "practical_issues": [
+              "Networking complexity: Container networking can be challenging with multiple overlapping networks",
+              "Storage persistence: Containers are ephemeral by design, requiring careful state management",
+              "Security concerns: Container images may contain vulnerabilities if not regularly scanned",
+              "Resource limits: Misconfigured resource limits can cause OOM kills or resource starvation",
+              "Monitoring complexity: Tracking metrics across thousands of short-lived containers"
+            ],
+            "historical_aspects": [
+              "Containers evolved from Unix chroot jails in 1979",
+              "Docker popularized containers in 2013, making them accessible to developers",
+              "Kubernetes was released by Google in 2014 based on their internal Borg system",
+              "The rise of microservices in the 2010s drove container adoption",
+              "Cloud providers launched managed Kubernetes services (EKS, AKS, GKE) around 2017-2018"
+            ],
+            "related_concepts": [
+              "Service mesh (Istio, Linkerd) for advanced networking and observability",
+              "Infrastructure as Code (IaC) tools like Terraform for provisioning",
+              "GitOps workflows for declarative deployments",
+              "Serverless containers (AWS Fargate, Azure Container Instances)",
+              "Container security tools (Aqua, Twistlock, Falco)"
+            ],
+            "memorize_this": [
+              "Pods are the smallest deployable units in Kubernetes, not containers",
+              "StatefulSets are used for stateful applications, Deployments for stateless",
+              "Namespaces provide logical isolation within a Kubernetes cluster",
+              "ReplicaSets ensure a specified number of pod replicas are running",
+              "ConfigMaps and Secrets separate configuration from container images"
+            ],
+            "eli5": [
+              "Containers are like shipping containers: they hold everything your app needs in a standard box",
+              "Kubernetes is like a smart warehouse manager that knows where to put containers",
+              "Orchestration is like conducting an orchestra: making sure all parts work together",
+              "A pod is like a shared apartment where containers (roommates) live together",
+              "Load balancing is like a traffic cop directing cars to different checkout lanes"
+            ],
+            "analogies": [
+              "Containers vs VMs: Apartments in a building vs individual houses",
+              "Kubernetes cluster: A smart city with automated traffic management",
+              "Docker image layers: Transparent slides stacked on top of each other",
+              "Service discovery: A phone directory that updates itself automatically",
+              "Rolling updates: Replacing airplane engines one at a time while flying"
+            ],
+            "ideal_usage": [
+              "When you need to scale applications horizontally across multiple servers",
+              "For microservices architectures with many independent components",
+              "When consistent deployment across dev, staging, and production is critical",
+              "For applications that need automatic recovery from failures",
+              "When multi-cloud or hybrid cloud strategy is required"
+            ],
+            "mcqs": [
+              {
+                "question": "What is the smallest deployable unit in Kubernetes?",
+                "options": ["Container", "Pod", "Deployment", "ReplicaSet"],
+                "correct": 1,
+                "explanation": "A Pod is the smallest deployable unit in Kubernetes. It can contain one or more containers that share networking and storage."
+              },
+              {
+                "question": "Which Kubernetes object is used for stateful applications?",
+                "options": ["Deployment", "DaemonSet", "StatefulSet", "Job"],
+                "correct": 2,
+                "explanation": "StatefulSets are designed for stateful applications that need persistent storage and stable network identities."
+              },
+              {
+                "question": "What does a Docker image layer represent?",
+                "options": ["A running container", "A cached instruction from Dockerfile", "A network interface", "A volume mount"],
+                "correct": 1,
+                "explanation": "Each instruction in a Dockerfile creates a new layer. Layers are cached and reused to speed up builds."
+              },
+              {
+                "question": "Which service type exposes a Kubernetes service externally?",
+                "options": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"],
+                "correct": 2,
+                "explanation": "LoadBalancer type creates an external load balancer (in supported cloud providers) and assigns a fixed external IP."
+              },
+              {
+                "question": "What is the purpose of a liveness probe?",
+                "options": ["Check if pod is ready to receive traffic", "Detect if a container is still running", "Monitor CPU usage", "Log application errors"],
+                "correct": 1,
+                "explanation": "Liveness probes determine if a container is still running. If it fails, Kubernetes restarts the container."
+              }
+            ],
+            "thought_provoking": [
+              "How will WebAssembly and WASI impact the future of container orchestration?",
+              "Should stateful applications always use StatefulSets, or are there better alternatives?",
+              "What are the environmental costs of running thousands of containers vs traditional VMs?",
+              "How can we balance security isolation with container density and performance?",
+              "Will Kubernetes remain the standard, or will simpler alternatives emerge for most use cases?"
+            ],
+            "best_practices": [
+              "Always set resource requests and limits to prevent resource starvation",
+              "Use multi-stage builds to minimize image size and attack surface",
+              "Implement health checks (liveness and readiness probes) for all containers",
+              "Store secrets in Kubernetes Secrets or external secret managers, never in images",
+              "Use immutable tags or digests for production images, never 'latest'"
+            ],
+            "anti_patterns": [
+              "Running containers as root user (major security risk)",
+              "Storing persistent data inside containers without volumes",
+              "Using 'latest' tag in production (non-reproducible deployments)",
+              "Not setting resource limits (can cause cluster instability)",
+              "Treating containers like VMs with SSH access and manual updates"
+            ],
+            "tools_technologies": [
+              "Kubernetes (K8s) - Container orchestration platform",
+              "Docker - Container runtime and image builder",
+              "Helm - Package manager for Kubernetes",
+              "kubectl - Command-line tool for Kubernetes",
+              "Prometheus & Grafana - Monitoring and visualization"
+            ],
+            "interview_questions": [
+              "Explain the difference between a Deployment and a StatefulSet",
+              "How does Kubernetes handle pod networking and service discovery?",
+              "What strategies would you use to debug a failing pod?",
+              "Describe the process of a rolling update in Kubernetes",
+              "How would you design a disaster recovery strategy for a Kubernetes cluster?"
+            ],
+            "hands_on_exercises": [
+              "Deploy a 3-tier application (frontend, backend, database) on Kubernetes",
+              "Implement horizontal pod autoscaling based on custom metrics",
+              "Set up a CI/CD pipeline that builds and deploys containers automatically",
+              "Configure network policies to restrict pod-to-pod communication",
+              "Practice zero-downtime deployments using blue-green or canary strategies"
+            ],
+            "further_reading": [
+              "Kubernetes Up & Running by Kelsey Hightower",
+              "The DevOps Handbook by Gene Kim",
+              "Official Kubernetes Documentation (kubernetes.io/docs)",
+              "Container Security by Liz Rice",
+              "CNCF Cloud Native Landscape (landscape.cncf.io)"
+            ]
+          }
+        },
+        "Serverless Computing": {
+          "topic_id": "ghi12345",
+          "content": {
+            "titbits": [
+              "AWS Lambda processes trillions of requests per month",
+              "Serverless doesn't mean no servers - it means you don't manage them",
+              "Cold starts typically add 100-1000ms latency to function invocations",
+              "The serverless market is expected to reach $30 billion by 2030",
+              "Azure Functions supports 10+ programming languages"
+            ],
+            "code_snippets": [
+              {
+                "language": "javascript",
+                "description": "AWS Lambda function handling API Gateway events",
+                "code": "exports.handler = async (event) => {\n  const body = JSON.parse(event.body);\n  \n  // Process the request\n  const result = await processData(body);\n  \n  return {\n    statusCode: 200,\n    headers: {\n      'Content-Type': 'application/json',\n      'Access-Control-Allow-Origin': '*'\n    },\n    body: JSON.stringify(result)\n  };\n};"
+              },
+              {
+                "language": "python",
+                "description": "Google Cloud Function with Pub/Sub trigger",
+                "code": "import base64\nimport json\n\ndef process_message(event, context):\n    pubsub_message = base64.b64decode(event['data']).decode('utf-8')\n    message_data = json.loads(pubsub_message)\n    \n    # Process the message\n    result = handle_event(message_data)\n    \n    print(f'Processed message: {result}')\n    return 'Success'"
+              },
+              {
+                "language": "yaml",
+                "description": "Serverless Framework configuration",
+                "code": "service: my-service\n\nprovider:\n  name: aws\n  runtime: nodejs16.x\n  region: us-east-1\n\nfunctions:\n  hello:\n    handler: handler.hello\n    events:\n      - http:\n          path: hello\n          method: get\n      - schedule: rate(5 minutes)"
+              }
+            ],
+            "use_cases": [
+              "Real-time file processing when uploads occur (image resizing, video transcoding)",
+              "Webhook handlers for third-party integrations",
+              "Scheduled tasks like data backups or report generation",
+              "API backends for mobile and web applications",
+              "Stream processing for IoT data or log analysis"
+            ],
+            "real_examples": [
+              "Netflix uses AWS Lambda for encoding and validating backup media files",
+              "Coca-Cola uses serverless for vending machines to process transactions",
+              "iRobot uses Lambda to handle millions of messages from Roomba devices",
+              "Airbnb uses serverless functions for image processing at scale",
+              "Capital One uses Lambda for real-time fraud detection"
+            ],
+            "memorize_this": [
+              "Pay-per-execution model: You only pay for compute time consumed",
+              "Event-driven: Functions are triggered by events, not always running",
+              "Stateless: Each function invocation is independent and ephemeral",
+              "Automatic scaling: From zero to thousands of concurrent executions",
+              "Managed infrastructure: No server provisioning or maintenance"
+            ],
+            "eli5": [
+              "Serverless is like a taxi: you only pay when you're riding, not when parked",
+              "Functions are like microwave meals: quick to prepare, serve one purpose",
+              "Cold starts are like warming up a car engine on a cold day",
+              "Event triggers are like doorbell buttons that activate functions",
+              "Auto-scaling is like having unlimited helpers who appear when needed"
+            ]
+          }
+        }
+      }
+    },
+    "Database Design": {
+      "field_id": "xyz78901",
+      "topics": {
+        "SQL vs NoSQL": {
+          "topic_id": "jkl45678",
+          "content": {
+            "titbits": [
+              "SQL databases have been around since the 1970s",
+              "MongoDB processes over 100 billion documents per day globally",
+              "CAP theorem: You can only have 2 of 3 - Consistency, Availability, Partition tolerance",
+              "PostgreSQL supports both relational and JSON document storage",
+              "Cassandra was originally developed by Facebook for their inbox search"
+            ],
+            "code_snippets": [
+              {
+                "language": "sql",
+                "description": "Complex JOIN query with aggregation",
+                "code": "SELECT \n  c.customer_name,\n  COUNT(o.order_id) as total_orders,\n  SUM(oi.quantity * oi.price) as total_spent\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nJOIN order_items oi ON o.order_id = oi.order_id\nWHERE o.order_date >= DATE_SUB(NOW(), INTERVAL 1 YEAR)\nGROUP BY c.customer_id, c.customer_name\nHAVING total_spent > 1000\nORDER BY total_spent DESC;"
+              },
+              {
+                "language": "javascript",
+                "description": "MongoDB aggregation pipeline",
+                "code": "db.orders.aggregate([\n  { $match: { status: 'completed' } },\n  { $group: {\n      _id: '$customerId',\n      totalOrders: { $sum: 1 },\n      totalAmount: { $sum: '$amount' }\n    }\n  },\n  { $sort: { totalAmount: -1 } },\n  { $limit: 10 }\n]);"
+              }
+            ],
+            "use_cases": [
+              "SQL: Banking systems requiring ACID transactions",
+              "NoSQL: Social media feeds with billions of posts",
+              "SQL: E-commerce inventory with complex relationships",
+              "NoSQL: IoT sensor data with high write throughput",
+              "SQL: Reporting and analytics with complex queries"
+            ],
+            "memorize_this": [
+              "ACID: Atomicity, Consistency, Isolation, Durability",
+              "BASE: Basically Available, Soft state, Eventually consistent",
+              "Normalization reduces data redundancy in SQL databases",
+              "Denormalization improves read performance in NoSQL",
+              "Sharding distributes data across multiple servers"
+            ]
+          }
+        },
+        "Data Modeling": {
+          "topic_id": "mno78901",
+          "content": {
+            "titbits": [
+              "Good data modeling can improve query performance by 100x or more",
+              "Entity-Relationship diagrams were introduced by Peter Chen in 1976",
+              "Third Normal Form (3NF) is usually sufficient for most applications",
+              "Star schema is the most common pattern for data warehouses",
+              "Over-normalization can lead to complex queries and poor performance"
+            ],
+            "use_cases": [
+              "E-commerce product catalogs with categories and variants",
+              "Social networks with users, posts, and relationships",
+              "Healthcare systems with patients, treatments, and medical records",
+              "Financial systems with accounts, transactions, and audit trails",
+              "Content management systems with articles, authors, and tags"
+            ],
+            "memorize_this": [
+              "Primary keys uniquely identify each record in a table",
+              "Foreign keys establish relationships between tables",
+              "One-to-many: One customer can have many orders",
+              "Many-to-many: Students can enroll in multiple courses, courses have multiple students",
+              "Denormalization trades storage space for query performance"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
